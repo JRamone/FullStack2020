@@ -18,7 +18,8 @@ const App = () => {
   const deleteButtonHandler = (event) => {
     const name = event.target.value
     const id = event.target.id
-    if(window.confirm(`Are you sure you want to delete ${name}`)){
+    const ok = window.confirm(`Are you sure you want to delete ${name}`)
+    if(ok){
       personservice
       .deletePerson(id)
       .then(update => {
