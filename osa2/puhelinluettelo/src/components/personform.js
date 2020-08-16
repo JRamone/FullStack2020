@@ -31,6 +31,7 @@ const PersonForm = ({setMessage,setMessageType,persons,setPersons}) => {
             setPersons(persons.map(person => person.id !== responsePerson.id ? person : responsePerson))
             setNewName("")
             setNewNumber("")
+            setMessageType("success")
             setMessage(`${newName} succesfully updated`)
             setTimeout(() => {
               setMessage(null)
@@ -51,8 +52,9 @@ const PersonForm = ({setMessage,setMessageType,persons,setPersons}) => {
     return
     }
     personservice
-      .addPerson(personObject)
+      .addPerson(personObject) 
       .then(personObject => {
+        setMessageType("success")
         setPersons(persons.concat(personObject))
         setNewName("")
         setNewNumber("")
@@ -60,8 +62,17 @@ const PersonForm = ({setMessage,setMessageType,persons,setPersons}) => {
         setTimeout(() => {
           setMessage(null)
         }, 3000);
-      }
-      )
+      })
+      .catch(error => {
+        const message = error.response.data.error
+        setMessageType("error")
+        setMessage(message)
+        setTimeout(() => {
+        setMessage(null)
+        },3000);
+        setNewName("")
+        setNewNumber("")
+      })
   }
 
   return (
