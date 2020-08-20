@@ -14,7 +14,7 @@ const favoriteBlog = (blogs) => {
 }
 
 const mostBlogs = (blogs) => {
-  const mostWritingAuthor = Object.entries(lodash.countBy(blogs, 'author')).reduce(([key1,val1],[key2,val2]) => val1 > val2 ? [key1,val1] : [key2,val2])
+  const mostWritingAuthor = lodash.chain(blogs).countBy('author').toPairs().maxBy((item) => item[1]).value()
   return {
     author : mostWritingAuthor[0],
     blogs : mostWritingAuthor[1]
@@ -22,14 +22,17 @@ const mostBlogs = (blogs) => {
 }
 
 const mostLikes = (blogs) => {
-  let authorsAndLikes = new Object()
-  blogs.forEach(blog => {
-    authorsAndLikes[blog.author] ? authorsAndLikes[blog.author] += blog.likes : authorsAndLikes[blog.author] = blog.likes})
-  authorsAndLikes = Object.entries(authorsAndLikes).reduce(([key1,val1],[key2,val2]) => val1 > val2 ? [key1,val1] : [key2,val2])
-  return {
-    author : authorsAndLikes[0],
-    likes : authorsAndLikes[1]
-  }
+  return lodash
+    .chain(blogs)
+    .groupBy('author')
+    .map((likes,key) => {
+      return {
+        'author': key,
+        'likes' : lodash.sumBy(likes,'likes')
+      }
+    })
+    .maxBy('likes')
+    .value()
 }
 
 
