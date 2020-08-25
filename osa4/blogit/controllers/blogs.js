@@ -1,10 +1,14 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/userModel')
+const jwt = require('jsonwebtoken')
+const logger = require('../utils/logger')
 require('express-async-errors')
 
+
 blogsRouter.get('/', async(request, response) => {
-  const blogs = await Blog.find({})
-  response.status(200).send(blogs)
+  const blogs = await Blog.find({}).populate('user',{ name : true, username : true, id : true })
+  response.status(200).send(blogs.map(b => b.toJSON()))
 })
 
 blogsRouter.get('/:id', async(request, response) => {
@@ -13,16 +17,32 @@ blogsRouter.get('/:id', async(request, response) => {
 })
 
 blogsRouter.post('/', async(request, response) => {
-  const blog = new Blog(request.body)
-  if (!blog.likes) blog.likes=0
-  if (!blog.title && !blog.author) throw TypeError
-  await blog.save(blog)
-  response.status(201).send(blog)
+
+  const body = request.body
+  const decodedToken = jwt.verify(request.token, process.env.TOKEN)
+
+  if (!request.token || !decodedToken.id) {
+    return response.status(401).json({ error: 'Token missing or invalid' })
+  }
+  const user = await User.findById(decodedToken.id)
+  if (!body.likes) body.likes=0
+  if (!body.title && !body.author) throw TypeError
+  body.user=user._id
+  const blog = new Blog(body)
+  const savedBlog = await blog.save()
+  user.blogs = user.blogs.concat(savedBlog._id)
+  await user.save()
+  response.status(201).json(savedBlog)
 })
 
 blogsRouter.delete('/:id', async(request, response) => {
-  await Blog.findByIdAndDelete(request.params.id)
-  response.status(204).end()
+  const blog = await Blog.findById(request.params.id)
+  const decodedToken = jwt.verify(request.token, process.env.TOKEN)
+  if (blog.user.toString() === decodedToken.id){
+    await Blog.findByIdAndDelete(blog.id)
+    return response.status(200).json(`Blog ${blog.id} succesfully deleted`)
+  }
+  response.status(401).json({ error : 'unauthorized operation' })
 })
 
 blogsRouter.put('/:id', async(request, response) => {
@@ -34,7 +54,7 @@ blogsRouter.put('/:id', async(request, response) => {
     likes : body.likes,
   }
   await Blog.findByIdAndUpdate(request.params.id, blog)
-  return response.status(204).end()
+  return response.status(200).json('success')
 })
 
 module.exports = blogsRouter

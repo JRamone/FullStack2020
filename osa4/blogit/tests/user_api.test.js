@@ -85,7 +85,7 @@ describe('Malformed userdata errorhandling: ', () => {
 
     await api.post('/api/users').send(testPerson).expect(201)
     const response = await api.post('/api/users').send(testPerson).expect(400)
-    expect(response.body).toContain('error')
+    expect(response.body).toContain('ValidationError')
   })
 
   test('Duplicate users cannot be added into database', async() => {

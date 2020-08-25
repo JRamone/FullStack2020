@@ -31,8 +31,8 @@ usersRouter.post('/', async(request, response) => {
 })
 
 usersRouter.get('/' ,async(request,response) => {
-  const users = await User.find({})
-  response.status(200).json(users)
+  const users = await User.find({}).populate('blogs')
+  response.status(200).json(users.map(u => u.toJSON()))
 })
 
 usersRouter.get('/:id' ,async(request,response) => {
