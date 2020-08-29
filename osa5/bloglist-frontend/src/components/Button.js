@@ -1,6 +1,10 @@
 import React from 'react'
 
-const Button = ({text,onClick}) => {
+const Button = ({
+  text,
+  onClick,
+  onSubmit
+  }) => {
 
   const buttonStyle = {
     backgroundColor : 'forestgreen',
@@ -15,7 +19,7 @@ const Button = ({text,onClick}) => {
   }
 
   return (
-  <button style={buttonStyle} onClick={onClick}type="submit">{text}</button>
+  <button style={buttonStyle} onSubmit={onSubmit} onClick={onClick}type="submit">{text}</button>
   )
 }
 

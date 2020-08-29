@@ -1,6 +1,7 @@
-import React,{useState} from 'react'
+import React,{useState, useRef} from 'react'
 import Button from '../components/Button'
 import blogsService from '../services/blogs'
+import Togglable from '../components/Togglable'
 
 const inputStyle = {
   backgroundColor : 'white',
@@ -19,12 +20,15 @@ const Createform = ({blogs,setBlogs,setMessage}) => {
   const [author,setAuthor] = useState('')
   const [url,setUrl] = useState('')
 
+  const createFormRef = useRef()
+
   const handleCreate = async (event) => {
     event.preventDefault()
     try {
       const response = await blogsService.createBlog({title,author,url})
       const addedblog = blogs.concat(response.data)
       setBlogs(addedblog)
+      createFormRef.current.toggleVisibility()
       setMessage(`added ${title} by ${author}`)
       setTimeout(() => {
         setMessage(null)
@@ -35,7 +39,7 @@ const Createform = ({blogs,setBlogs,setMessage}) => {
   }
 
   return (
-    <>
+    <Togglable buttonLabel = 'add blog' ref={createFormRef}>
     <h1>Create new</h1>
       <table>
         <tbody>
@@ -52,8 +56,7 @@ const Createform = ({blogs,setBlogs,setMessage}) => {
         </tr>
         </tbody>
       </table>
-      
-  </>
+      </Togglable>
   )
 }
 

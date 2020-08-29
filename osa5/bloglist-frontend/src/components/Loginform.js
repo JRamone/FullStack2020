@@ -2,8 +2,12 @@ import React, {useState} from 'react'
 import loginService from '../services/loginService'
 import Button from '../components/Button'
 import blogs from '../services/blogs'
+import Togglable from '../components/Togglable'
 
-const Loginform = ({setUser,setMessage}) => {
+const Loginform = ({
+  setUser,
+  setMessage
+  }) => {
 
   const [username, setuserName] = useState("")
   const [password, setPassword] = useState("")
@@ -60,11 +64,13 @@ const Loginform = ({setUser,setMessage}) => {
   }
 
   return (
-    <form style = {formStyle}>
-      <input onChange={handleChange} style={inputStyle} placeholder = "username" type="text" id="username" name="username"></input><br></br>
-      <input onChange={handleChange} style={inputStyle} placeholder = "password" type="password" id="password" name="password"></input><br></br>
+    <Togglable buttonLabel = 'show Log in'>
+    <form style={formStyle}>
+      <input style = {inputStyle} onChange={handleChange} placeholder = "username" type="text" id="username" name="username"></input><br></br>
+      <input style = {inputStyle} onChange={handleChange} placeholder = "password" type="password" id="password" name="password"></input><br></br>
       <Button text="Log in" onClick = {handleSubmit}/>
     </form>
+    </Togglable>
   )
 }
 
