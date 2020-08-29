@@ -1,4 +1,4 @@
-import React,{useState, useRef} from 'react'
+import React,{ useState, useRef } from 'react'
 import Button from '../components/Button'
 import blogsService from '../services/blogs'
 import Togglable from '../components/Togglable'
@@ -14,7 +14,7 @@ const inputStyle = {
   textIndent : 10
 }
 
-const Createform = ({blogs,setBlogs,setMessage}) => {
+const Createform = ({ blogs,setBlogs,setMessage }) => {
 
   const [title,setTitle] = useState('')
   const [author,setAuthor] = useState('')
@@ -25,14 +25,14 @@ const Createform = ({blogs,setBlogs,setMessage}) => {
   const handleCreate = async (event) => {
     event.preventDefault()
     try {
-      const response = await blogsService.createBlog({title,author,url})
+      const response = await blogsService.createBlog({ title,author,url })
       const addedblog = blogs.concat(response.data)
       setBlogs(addedblog)
       createFormRef.current.toggleVisibility()
       setMessage(`added ${title} by ${author}`)
       setTimeout(() => {
         setMessage(null)
-      }, 4000);
+      }, 4000)
     } catch (error) {
       console.log(error)
     }
@@ -40,23 +40,23 @@ const Createform = ({blogs,setBlogs,setMessage}) => {
 
   return (
     <Togglable buttonLabel = 'add blog' ref={createFormRef}>
-    <h1>Create new</h1>
+      <h1>Create new</h1>
       <table>
         <tbody>
-        <tr>
-          <th>Title: </th>
-          <th>Author: </th>
-          <th>Url:</th>
-        </tr>
-        <tr>
-          <td><input onChange={({target}) => setTitle(target.value)} style={inputStyle}></input></td>
-          <td><input onChange={({target}) => setAuthor(target.value)} style={inputStyle}></input></td>
-          <td><input onChange={({target}) => setUrl(target.value)} style={inputStyle}></input></td>
-          <td><Button onClick={handleCreate}text="create"/></td>
-        </tr>
+          <tr>
+            <th>Title: </th>
+            <th>Author: </th>
+            <th>Url:</th>
+          </tr>
+          <tr>
+            <td><input onChange={({ target }) => setTitle(target.value)} style={inputStyle}></input></td>
+            <td><input onChange={({ target }) => setAuthor(target.value)} style={inputStyle}></input></td>
+            <td><input onChange={({ target }) => setUrl(target.value)} style={inputStyle}></input></td>
+            <td><Button onClick={handleCreate}text="create"/></td>
+          </tr>
         </tbody>
       </table>
-      </Togglable>
+    </Togglable>
   )
 }
 

@@ -1,6 +1,6 @@
 const ips = [
-  "Pekka",
-  "Matti",
+  'Pekka',
+  'Matti',
   3
 ]
 

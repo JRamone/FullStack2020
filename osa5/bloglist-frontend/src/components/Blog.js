@@ -1,6 +1,6 @@
-import React,{useState} from 'react'
+import React,{ useState } from 'react'
 import blogService from '../services/blogs'
-const Blog = ({ blog }) => {
+const Blog = ({ blog,blogs,setBlogs }) => {
 
   const [showFullInformation,setShowFullInformation] = useState(false)
 
@@ -16,19 +16,42 @@ const Blog = ({ blog }) => {
     marginBottom: 5
   }
 
-  const normalview = {...blogStyle, display : showFullInformation ? 'none' : ''}
-  const fullview = {...blogStyle, display : showFullInformation ? '' : 'none'}
+  const normalview = { ...blogStyle, display : showFullInformation ? 'none' : '' }
+  const fullview = { ...blogStyle, display : showFullInformation ? '' : 'none' }
 
-  const handleLike = async (event) => {
-    const blogWithAddedLike = {...blog, likes : blog.likes + 1}
+  const handleLike = async () => {
+    const blogWithAddedLike = { ...blog, likes : blog.likes + 1 }
+    let updatedblogs = blogs.map(blog => blog.id === blogWithAddedLike.id ? blogWithAddedLike : blog)
+    updatedblogs.sort((blog1,blog2) => blog2.likes - blog1.likes)
+    setBlogs(updatedblogs)
     await blogService.likeABlog(blogWithAddedLike)
-    //KAIKKI OK !  blogs tila pitää päivittää.. viitteellä?
   }
+
+  const handleDelete = async(event) => {
+    const blogToDelete = event.target.value
+    console.log(blogToDelete)
+    const ok = window.confirm(`You really wanna delete ${blog.title}?`)
+    if (ok){
+      await blogService.deleteABlog(blogToDelete)
+      const updatedblogs = blogs.filter(blog => blog.id !== blogToDelete)
+      setBlogs(updatedblogs)
+    }
+  }
+
+
+  const showDeleteButton = (blog) => {
+    const loggedUser = JSON.parse(window.localStorage.getItem('LoggedUser'))
+    if(blog.user.name === loggedUser.username){
+      return <button value = {blog.id} onClick = {handleDelete}>delete</button>
+    }
+    return null
+  }
+
 
   return (
     <>
       <div style = {normalview}>
-        {blog.title} {blog.author}<button key={blog.id} onClick = {toggleShowFullInformation}>Show</button> 
+        {blog.title} {blog.author}<button key={blog.id} onClick = {toggleShowFullInformation}>Show</button>
       </div>
       <div style = {fullview}>
         <p>Author : {blog.author} <button key={blog.id} onClick = {toggleShowFullInformation}>Hide</button></p>
@@ -36,7 +59,7 @@ const Blog = ({ blog }) => {
         <p>Url : {blog.url}</p>
         <p>Likes : {blog.likes} <button onClick={handleLike}>like</button></p>
         <p>User : {blog.user.name}</p>
-         
+        {showDeleteButton(blog)}
       </div>
     </>
   )

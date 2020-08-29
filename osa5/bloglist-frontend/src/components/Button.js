@@ -4,7 +4,7 @@ const Button = ({
   text,
   onClick,
   onSubmit
-  }) => {
+}) => {
 
   const buttonStyle = {
     backgroundColor : 'forestgreen',
@@ -19,7 +19,7 @@ const Button = ({
   }
 
   return (
-  <button style={buttonStyle} onSubmit={onSubmit} onClick={onClick}type="submit">{text}</button>
+    <button style={buttonStyle} onSubmit={onSubmit} onClick={onClick}type="submit">{text}</button>
   )
 }
 

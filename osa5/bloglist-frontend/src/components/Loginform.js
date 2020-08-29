@@ -1,18 +1,22 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import loginService from '../services/loginService'
 import Button from '../components/Button'
 import blogs from '../services/blogs'
 import Togglable from '../components/Togglable'
+import PropTypes from 'prop-types'
 
 const Loginform = ({
   setUser,
   setMessage
-  }) => {
+}) => {
 
-  const [username, setuserName] = useState("")
-  const [password, setPassword] = useState("")
+  const [username, setuserName] = useState('')
+  const [password, setPassword] = useState('')
 
-  
+  Loginform.propTypes = {
+    setUser: PropTypes.func.isRequired,
+    setMessage: PropTypes.func.isRequired
+  }
 
   const formStyle = {
     backgroundColor : 'lightgray',
@@ -43,33 +47,33 @@ const Loginform = ({
   const handleSubmit = async (event) => {
     event.preventDefault()
     console.log(`Logging in username : ${username} with password ${password}`)
-    try {      
-        const user = await loginService.login({username,password,})
-        window.localStorage.setItem('LoggedUser', JSON.stringify(user))
-        blogs.setToken(user.token)
-        setUser(user)
-        setuserName('')
-        setPassword('')
-        setMessage("Great Success")    
-        setTimeout(() => {
-          setMessage(null)
-        },4000)   
+    try {
+      const user = await loginService.login({ username,password, })
+      window.localStorage.setItem('LoggedUser', JSON.stringify(user))
+      blogs.setToken(user.token)
+      setUser(user)
+      setuserName('')
+      setPassword('')
+      setMessage('Great Success')
+      setTimeout(() => {
+        setMessage(null)
+      },4000)
     } catch (error) {
       console.log(error)
-      setMessage("Wrong Credentials")
-        setTimeout(() => {
-          setMessage(null)
-        },4000)
-    } 
+      setMessage('Wrong Credentials')
+      setTimeout(() => {
+        setMessage(null)
+      },4000)
+    }
   }
 
   return (
     <Togglable buttonLabel = 'show Log in'>
-    <form style={formStyle}>
-      <input style = {inputStyle} onChange={handleChange} placeholder = "username" type="text" id="username" name="username"></input><br></br>
-      <input style = {inputStyle} onChange={handleChange} placeholder = "password" type="password" id="password" name="password"></input><br></br>
-      <Button text="Log in" onClick = {handleSubmit}/>
-    </form>
+      <form style={formStyle}>
+        <input style = {inputStyle} onChange={handleChange} placeholder = "username" type="text" id="username" name="username"></input><br></br>
+        <input style = {inputStyle} onChange={handleChange} placeholder = "password" type="password" id="password" name="password"></input><br></br>
+        <Button text="Log in" onClick = {handleSubmit}/>
+      </form>
     </Togglable>
   )
 }
