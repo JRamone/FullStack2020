@@ -29,7 +29,6 @@ const Blog = ({ blog,blogs,setBlogs }) => {
 
   const handleDelete = async(event) => {
     const blogToDelete = event.target.value
-    console.log(blogToDelete)
     const ok = window.confirm(`You really wanna delete ${blog.title}?`)
     if (ok){
       await blogService.deleteABlog(blogToDelete)
@@ -41,7 +40,7 @@ const Blog = ({ blog,blogs,setBlogs }) => {
 
   const showDeleteButton = (blog) => {
     const loggedUser = JSON.parse(window.localStorage.getItem('LoggedUser'))
-    if(blog.user.name === loggedUser.username){
+    if(blog.user.username === loggedUser.username){
       return <button value = {blog.id} onClick = {handleDelete}>delete</button>
     }
     return null
@@ -50,7 +49,7 @@ const Blog = ({ blog,blogs,setBlogs }) => {
 
   return (
     <>
-      <div style = {normalview}>
+      <div data-testid='normalview' className='blog' style = {normalview}>
         {blog.title} {blog.author}<button key={blog.id} onClick = {toggleShowFullInformation}>Show</button>
       </div>
       <div style = {fullview}>
@@ -58,7 +57,7 @@ const Blog = ({ blog,blogs,setBlogs }) => {
         <p>Title : {blog.title}</p>
         <p>Url : {blog.url}</p>
         <p>Likes : {blog.likes} <button onClick={handleLike}>like</button></p>
-        <p>User : {blog.user.name}</p>
+        <p>User : {blog.user.username}</p>
         {showDeleteButton(blog)}
       </div>
     </>

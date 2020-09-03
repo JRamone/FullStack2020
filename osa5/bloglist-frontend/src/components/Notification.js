@@ -1,13 +1,13 @@
 import React from 'react'
 
 
-const Notification = ({ message }) => {
+const Notification = ({message}) => {
   if (message === null){
     return null
   }
 
   const style = {
-    fontSize:50
+    fontSize : 50,
   }
 
 

@@ -28,7 +28,7 @@ const Welcomeform = ({ setUser,user,setMessage }) => {
   return (
     <div style={style}>
       HEY THERE, {user.name}<br/>
-      <Button onClick={handleLogOut} text='log out'/>
+      <Button id='logOutButton' onClick={handleLogOut} text='log out'/>
     </div>
   )
 }

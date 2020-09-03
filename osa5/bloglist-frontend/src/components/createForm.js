@@ -39,7 +39,7 @@ const Createform = ({ blogs,setBlogs,setMessage }) => {
   }
 
   return (
-    <Togglable buttonLabel = 'add blog' ref={createFormRef}>
+    <Togglable id='addblog' buttonLabel = 'add blog' ref={createFormRef}>
       <h1>Create new</h1>
       <table>
         <tbody>
@@ -49,10 +49,10 @@ const Createform = ({ blogs,setBlogs,setMessage }) => {
             <th>Url:</th>
           </tr>
           <tr>
-            <td><input onChange={({ target }) => setTitle(target.value)} style={inputStyle}></input></td>
-            <td><input onChange={({ target }) => setAuthor(target.value)} style={inputStyle}></input></td>
-            <td><input onChange={({ target }) => setUrl(target.value)} style={inputStyle}></input></td>
-            <td><Button onClick={handleCreate}text="create"/></td>
+            <td><input id='titleinput' onChange={({ target }) => setTitle(target.value)} style={inputStyle}></input></td>
+            <td><input id='authorinput' onChange={({ target }) => setAuthor(target.value)} style={inputStyle}></input></td>
+            <td><input id='urlinput' onChange={({ target }) => setUrl(target.value)} style={inputStyle}></input></td>
+            <td><Button id='blogsubmitbutton'onClick={handleCreate}text="create"/></td>
           </tr>
         </tbody>
       </table>

@@ -68,11 +68,11 @@ const Loginform = ({
   }
 
   return (
-    <Togglable buttonLabel = 'show Log in'>
+    <Togglable defaultVisibility = 'true' buttonLabel = 'show Log in'>
       <form style={formStyle}>
         <input style = {inputStyle} onChange={handleChange} placeholder = "username" type="text" id="username" name="username"></input><br></br>
         <input style = {inputStyle} onChange={handleChange} placeholder = "password" type="password" id="password" name="password"></input><br></br>
-        <Button text="Log in" onClick = {handleSubmit}/>
+        <Button id="loginButton" text="Log in" onClick = {handleSubmit}/>
       </form>
     </Togglable>
   )

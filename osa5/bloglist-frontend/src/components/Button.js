@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Button = ({
+  id,
   text,
   onClick,
   onSubmit
@@ -19,7 +20,7 @@ const Button = ({
   }
 
   return (
-    <button style={buttonStyle} onSubmit={onSubmit} onClick={onClick}type="submit">{text}</button>
+    <button id={id} style={buttonStyle} onSubmit={onSubmit} onClick={onClick}type="submit">{text}</button>
   )
 }
 
