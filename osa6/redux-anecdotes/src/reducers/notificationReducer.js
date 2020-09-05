@@ -9,10 +9,10 @@ const reducer = (state = defaultNotification, action) => {
   }
 }
 
-export const setNotification = (notification) => {
-  return {
-    type : 'SET',
-    content : notification
+export const setNotification = (notification, time) => {
+  return async dispatch => {
+    dispatch({type : 'SET', content : notification})
+    setTimeout(() => dispatch({type : 'SET', content : ''}),time*1000)
   }
 }
 
