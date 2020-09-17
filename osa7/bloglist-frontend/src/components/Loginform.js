@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { setNotification } from '../reducers/notificationReducer'
 import { login } from '../reducers/userReducer'
 import { useDispatch } from 'react-redux'
+import Notification from './Notification'
 
 import {
   TextField,
@@ -28,13 +29,12 @@ const Loginform = () => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     try {
-      dispatch(login({ username,password }))
+      await dispatch(login({ username,password }))
       setuserName('')
       setPassword('')
       dispatch(setNotification('Successfully logged in'))
     } catch (error) {
-      console.log(error)
-      dispatch(setNotification('Wrong Credentials'))
+      dispatch(setNotification('Wrong Credentials', 'error'))
     }
   }
 
@@ -57,6 +57,14 @@ const Loginform = () => {
         </div>
         <div style= {paddingtop}>
           <Button type ='submit' variant = 'contained' color = 'primary' id="loginButton" text="Log in">Log in</Button>
+        </div>
+        <div>
+          <Notification />
+        </div>
+        <div>
+          <h2>Testikäyttäjä </h2>
+          <h3>Käyttäjätunnus : Testi</h3>
+          <h3>Salasana : Testi123</h3>
         </div>
       </form>
     </div>

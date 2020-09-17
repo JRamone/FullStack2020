@@ -3,19 +3,20 @@ import { useSelector } from 'react-redux'
 import { Alert } from '@material-ui/lab'
 
 const Notification = () => {
-  const message = useSelector(state => state.notification)
-  if (message === null){
+
+
+  const message = useSelector(state => state.notification.message)
+  const type = useSelector(state => state.notification.type)
+  if (message === ''){
     return null
   }
-
   const style = {
     fontSize : 50,
   }
 
-
   return (
     <div style = {style}>
-      <Alert severity='success'>
+      <Alert severity= {type}>
         {message}
       </Alert>
     </div>

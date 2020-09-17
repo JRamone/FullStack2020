@@ -1,11 +1,14 @@
 
+const initialmessage = {
+  message : '',
+  type : 'success'
+}
 
-
-const notificationReducer = (state = null, action) => {
+const notificationReducer = (state = initialmessage, action) => {
   //console.log('reducer FIRES!')
   switch(action.type){
   case 'RESET':
-    return null
+    return initialmessage
   case 'SET':
     return action.data
   default:
@@ -15,13 +18,13 @@ const notificationReducer = (state = null, action) => {
 
 let timeoutID = undefined
 
-export const setNotification = (message) => {
+export const setNotification = (message,type) => {
   if (timeoutID) {
     clearTimeout(timeoutID)
     timeoutID = undefined
   }
   return async dispatch => {
-    dispatch({ type: 'SET', data : message })
+    dispatch({ type: 'SET', data : { message,type } })
     timeoutID = (setTimeout(() => dispatch(resetNotification()),4000))
   }
 }
