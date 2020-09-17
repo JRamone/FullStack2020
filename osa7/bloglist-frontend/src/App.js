@@ -55,6 +55,11 @@ const App = () => {
             </>
             : <>
               <AppBar variant='outlined' position='absolute'>
+              <Typography>
+              <a style={linkStyle} href='https://github.com/JRamone/FullStack2020'>
+                https://github.com/JRamone/FullStack2020
+              </a>
+            </Typography>
                 <Toolbar>
                   <Grid
                     justify-content = 'left'
@@ -84,11 +89,7 @@ const App = () => {
               </Switch>
             </>}
           <AppBar style={footerStyle}>
-            <Typography>
-              <a style={linkStyle} href='https://github.com/JRamone/FullStack2020'>
-                https://github.com/JRamone/FullStack2020
-              </a>
-            </Typography>
+  
           </AppBar>
         </div>
       </Router>
