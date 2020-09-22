@@ -99,6 +99,7 @@ type Author {
   bookCount : Int!
   born : Int
 }
+
 type Mutation {
   addBook(
     title: String!
@@ -108,7 +109,7 @@ type Mutation {
   ): Book
 
   editAuthor(
-    name: String!
+    name:String!
     setBornTo: Int!
   ): Author
 }
@@ -156,9 +157,8 @@ const resolvers = {
       const book = { ...args, id: uuid() }
       books = books.concat(book)
       return book
-    }
-  },
-  Mutation: {
+    },
+  
     editAuthor:(root,args) => {
       const author = authors.find(author => author.name === args.name)
       if (author) {
